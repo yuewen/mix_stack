@@ -1,0 +1,13 @@
+.DS_Store
+.dart_tool/
+
+.packages
+.pub/
+.idea
+.vscode
+.gitlab-ci.yml
+.metadata
+
+build/
+settings.json
+coverage/
