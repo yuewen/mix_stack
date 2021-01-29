@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+///Widget for smooth out page transition with Keyboard openning
 class AutofocusPageSmoother extends StatefulWidget {
   final Widget child;
   final focusNode = FocusNode();

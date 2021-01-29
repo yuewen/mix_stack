@@ -1,4 +1,5 @@
 extension GetNativeAddress on String {
+  ///Method for getting URL's addr id
   String get address {
     List<String> list = split('?').last.split('&').where((element) => element.contains('addr')).toList();
     if (list.length == 0) {
@@ -8,6 +9,7 @@ extension GetNativeAddress on String {
     }
   }
 
+  ///Method for getting route path
   String get path {
     List<String> list = split('?');
     if (list.length == 1) {

@@ -9,9 +9,15 @@ typedef NativeOverlayConfigsAdjustFunction = void Function(List<NativeOverlayCon
     {@required bool hideOverlay});
 const String MXOverlayNameTabBar = "tabBar";
 
+/// Native Overlay UI info model
 class NativeOverlayInfo {
+  /// UI's position and size
   Rect rect;
+
+  /// Whether this UI is hide or show
   bool hidden;
+
+  /// Intialize through Map
   NativeOverlayInfo(Map infoDict) : super() {
     hidden = infoDict['hidden'];
     rect = Rect.fromLTWH(infoDict['x'], infoDict['y'], infoDict['width'], infoDict['height']);
@@ -26,15 +32,15 @@ class NativeOverlayInfo {
   int get hashCode => rect.hashCode ^ hidden.hashCode;
 }
 
-///Behavior configuration for NativeOverlay
+/// Behavior configuration for NativeOverlay
 ///
-///name: the name defined in native client code, please sync with other developer to get this name
+/// name: the name defined in native client code, please sync with other developer to get this name
 ///
-///alpha: NativeOverlay's alpha parameters
+/// alpha: NativeOverlay's alpha parameters
 ///
-///hidden: NativeOverlay's hidden situation, true for hide, false for show
+/// hidden: NativeOverlay's hidden situation, true for hide, false for show
 ///
-///needsAnimation: whether this configuration needs an animated transition or not
+/// needsAnimation: whether this configuration needs an animated transition or not
 class NativeOverlayConfig {
   bool hidden;
   double alpha;
@@ -46,16 +52,25 @@ class NativeOverlayConfig {
   }
 }
 
+/// Widget for mimic Native Overlay inside Flutter for animation and more
 class NativeOverlayReplacer extends StatefulWidget {
   final Widget child;
   final List<String> autoHidesOverlayNames;
+
+  /// Initialization
+  ///
+  /// [child] child
+  ///
+  /// [autoHidesOverlayNames] Native Overlay UI names for manipulation
   NativeOverlayReplacer({Key key, this.child, this.autoHidesOverlayNames = const []}) : super(key: key);
 
+  /// Fetch NativeOverlayReplacerState for child
   static NativeOverlayReplacerState of(BuildContext context) {
     final NativeOverlayReplacerState replacer = context.findAncestorStateOfType<NativeOverlayReplacerState>();
     return replacer;
   }
 
+  /// Quick way for generate NativeOverlayReplacer specially for handling native [Tab] co-existence
   static NativeOverlayReplacer autoHidesTabBar({Widget child}) {
     return NativeOverlayReplacer(
       child: child,
@@ -72,6 +87,7 @@ class NativeOverlayReplacerState extends State<NativeOverlayReplacer> {
   Uint8List _cacheflowData = Uint8List(0);
   Uint8List get overflowData => _overflowData;
   bool triggerByOthers = true;
+
   set overflowData(Uint8List list) {
     setState(() {
       triggerByOthers = false;
@@ -107,6 +123,13 @@ class NativeOverlayReplacerState extends State<NativeOverlayReplacer> {
 
   get registerLock => _registerLock;
 
+  /// Register push and pop related native UI transition
+  ///
+  /// [names] native UI names that needs to be config
+  ///
+  /// [persist] whether this registeration is one time or forever for current context
+  ///
+  /// [adjustConfigs] how to manipulate those UI
   void registerAutoPushHiding(List<String> names,
       {@required bool persist, NativeOverlayConfigsAdjustFunction adjustConfigs}) async {
     MXRouteObserver observer = MXRouteObserver.of(context);

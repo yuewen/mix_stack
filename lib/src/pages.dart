@@ -81,6 +81,7 @@ class PagesCommand extends ChangeNotifier {
   }
 }
 
+/// Object for subscribe current native container's inset notification
 class PageContainerInfo extends ChangeNotifier {
   PageContainerInfo(Map<String, dynamic> dict) : super() {
     if (dict != null) {
@@ -104,7 +105,11 @@ class PageContainerInfo extends ChangeNotifier {
 
 typedef EventHandler = void Function(Map<String, dynamic> query);
 
+/// Object for present a native Flutter container, each container have it's own naviagtor
+///
+/// And each PageContainer are laying in Stack, and MixStack will manage their visibility automatically
 class PageContainer extends InheritedWidget {
+  /// Object for subscribe current native container's inset notification
   final PageContainerInfo info = PageContainerInfo(null);
   PageContainer({Widget child}) : super(child: child);
 
