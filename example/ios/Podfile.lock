@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - mix_stack (1.2.12):
+  - mix_stack (1.0.3):
     - Flutter
 
 DEPENDENCIES:
@@ -15,8 +15,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  mix_stack: 5676d4acc0edc17b1cc7ef8eee7ef1ad38297fe4
+  mix_stack: d4abc7328b221e4fae6fd3c173911a4b37ddc46a
 
-PODFILE CHECKSUM: 617f69b4ca619e66c4a1bb124dad4fc0a368cdbc
+PODFILE CHECKSUM: 8f39d4b1f4c2d8d7be8aee4ca0287403e456311e
 
 COCOAPODS: 1.9.3

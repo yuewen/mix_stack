@@ -469,7 +469,7 @@ IMXPage 是一个接口，虽然结构很简单，但它是连通 Flutter 与 Na
 
 ```java
 public interface IMXPage {
-    String rootRoute(); //对于page的ro画te
+    String rootRoute();
     void onPopNative();
 }
 ```

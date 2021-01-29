@@ -4,12 +4,12 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'mix_stack'
-  s.version          = '1.2.12'
+  s.version          = '1.0.3'
   s.summary          = 'MixStack for connect Flutter and Native navigation.'
   s.description      = <<-DESC
 MixStack for connect Flutter and Native navigation.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'http://github.com/yuewen/mix_stack'
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Yuewen' => 'pepsin@me.com' }
   s.source           = { :path => '.' }

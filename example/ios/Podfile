@@ -2,9 +2,7 @@
 platform :ios, '9.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-source 'http://gitlab.inner.yuewen.local/flutter/specs.git'
 source 'https://github.com/CocoaPods/Specs.git'
-source 'http://gitlab.inner.yuewen.local/hibridge/hibridge-specs'
 
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
