@@ -1,6 +1,6 @@
 name: mix_stack
 description: MixStack lets you connects Flutter smoothly with Native pages, supports things like Multiple Tab Embeded Flutter View, Dynamic tab changing, and more. You can enjoy a smooth transition from legacy native code to Flutter with it.
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/yuewen/mix_stack
 
 environment:

@@ -7,3 +7,7 @@ Initial release
 ## 1.0.1
 
 Update docs and yamls according to pub.dev suggestion
+
+## 1.0.2
+
+Update README
