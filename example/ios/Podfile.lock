@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - mix_stack (1.2.12):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - mix_stack (from `.symlinks/plugins/mix_stack/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  mix_stack:
+    :path: ".symlinks/plugins/mix_stack/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  mix_stack: 5676d4acc0edc17b1cc7ef8eee7ef1ad38297fe4
+
+PODFILE CHECKSUM: 617f69b4ca619e66c4a1bb124dad4fc0a368cdbc
+
+COCOAPODS: 1.9.3

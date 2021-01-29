@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="200dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rv_size_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_tip_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change TabBar's height"
+                android:textColor="@color/gray"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_below="@id/tv_tip_height"
+                android:text="+20" />
+
+            <Button
+                android:id="@+id/btn_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_below="@id/tv_tip_height"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/btn_add"
+                android:text="-20" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rv_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+
+            <TextView
+                android:id="@+id/tv_tip_show_hide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show/Hide TabBar"
+                android:textColor="@color/gray"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/btn_show"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_below="@id/tv_tip_show_hide"
+                android:text="show"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_hide"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_below="@id/tv_tip_show_hide"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/btn_show"
+                android:text="hide"
+                android:textAllCaps="false" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_tab_container"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:background="#D5D1D1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:textSize="14dp"
+            android:text="Native TabBar"
+            android:textColor="@color/gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:text="Tab1"
+                android:textColor="#FF888888"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_flutter_first"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Tab2"
+                android:textColor="#FF888888"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_flutter_second"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Tab3"
+                android:textColor="#FF888888"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</FrameLayout>

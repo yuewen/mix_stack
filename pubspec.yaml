@@ -1,0 +1,25 @@
+name: mix_stack
+description: A flutter plugin for mixing native and flutter
+version: 1.0.0
+homepage: https://github.com/yuewen/mix_stack
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies: 
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.yuewen.mix_stack
+        pluginClass: MixStackPlugin
+      ios:
+        pluginClass: MixStackPlugin
