@@ -22,8 +22,7 @@ Add mixstack dependency in pubspec.yaml
 
 ```yaml
 dependencies:
-  mix_stack:
-    git: http://gitlab.inner.yuewen.local/flutter/mix_stack.git
+  mix_stack: <lastest_version>
 ```
 
 Run ```flutter pub get``` in your project folder
