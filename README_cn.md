@@ -388,7 +388,7 @@ private void showFragment(Fragment fg) {
 ```java
 @Override
 public void onBackPressed() {
-    if (pageManager.isCallFlutterPop()) {
+    if (pageManager.checkIsFlutterCanPop()) {
         pageManager.onBackPressed(this);
     } else {
         super.onBackPressed();
