@@ -132,7 +132,7 @@ public class MXPageManagerTest {
         mxPageManager.setCurrentShowPage(mxFlutterFragment);
         assertFalse(mxPageManager.checkIsFlutterCanPop());
 
-        Whitebox.setInternalState(mxFlutterFragment, "isCallFlutterPop", true);
+        Whitebox.setInternalState(mxFlutterFragment, "checkIsFlutterCanPop", true);
         assertTrue(mxPageManager.checkIsFlutterCanPop());
     }
 

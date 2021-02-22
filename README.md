@@ -393,7 +393,7 @@ Since Flutter have different mechanism with Android, we need to override back lo
 ```java
 @Override
 public void onBackPressed() {
-    if (pageManager.isCallFlutterPop()) {
+    if (pageManager.checkIsFlutterCanPop()) {
         pageManager.onBackPressed(this);
     } else {
         super.onBackPressed();
