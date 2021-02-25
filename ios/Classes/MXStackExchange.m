@@ -209,7 +209,7 @@ NSString *MXPageAddress(id<MXViewControllerProtocol> vc) {
     }
   }
   NSDictionary *query = @{ @"pages" : arr,
-                           @"current" : self.currentPage };
+                           @"current" : self.currentPage == nil ? @"" : self.currentPage };
   [MixStackPlugin
     invoke:@"setPages"
      query:query
