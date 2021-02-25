@@ -1,11 +1,11 @@
 name: mix_stack
 description: MixStack lets you connects Flutter smoothly with existing Native codebase without headache.
-version: 1.0.3
+version: 1.0.4
 homepage: https://github.com/yuewen/mix_stack
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.10.0"
+  flutter: ">=1.17.0"
 
 dependencies:
   flutter:

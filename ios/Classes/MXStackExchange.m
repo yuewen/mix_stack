@@ -208,6 +208,9 @@ NSString *MXPageAddress(id<MXViewControllerProtocol> vc) {
       [arr addObject:MXPageAddress(vc)];
     }
   }
+  if (arr.count == 0 || self.currentPage == nil) {
+    return;
+  }
   NSDictionary *query = @{ @"pages" : arr,
                            @"current" : self.currentPage };
   [MixStackPlugin
