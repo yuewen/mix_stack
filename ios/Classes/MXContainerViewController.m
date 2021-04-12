@@ -264,7 +264,7 @@
     MXContainerInfo *info = [[MXContainerInfo alloc] init];
     info.insets = totalInsets;
     [[MXStackExchange shared] updateContainer:self info:info];
-    if (parent != nil && !parent.tabBar.translucent) {
+    if (parent != nil && !parent.tabBar.translucent && !self.hidesBottomBarWhenPushed) {
       self.flutterVC.additionalSafeAreaInsets = self.view.safeAreaInsets;
     }
   }

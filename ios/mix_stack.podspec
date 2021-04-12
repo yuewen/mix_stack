@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'mix_stack'
-  s.version          = '1.0.4'
+  s.version          = '1.0.5'
   s.summary          = 'MixStack for connect Flutter and Native navigation.'
   s.description      = <<-DESC
 MixStack for connect Flutter and Native navigation.
