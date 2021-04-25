@@ -49,6 +49,9 @@ class MXPageInfo {
 class MXRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   static MXRouteObserver of(BuildContext context, {bool rootNavigator = false}) {
     NavigatorState navigator = Navigator.of(context, rootNavigator: rootNavigator);
+    if (navigator == null) {
+      return null;
+    }
     List<NavigatorObserver> observers =
         navigator.widget.observers.where((element) => element.runtimeType == MXRouteObserver).toList();
     if (observers.length == 0) {
