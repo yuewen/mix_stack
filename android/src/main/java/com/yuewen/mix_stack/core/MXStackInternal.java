@@ -55,18 +55,9 @@ class MXStackInternal {
         }
         checkAndAddPage(page);
         String formatStr = "%s?addr=%s";
-        List<String> allStackPage = new ArrayList<>(); //current status all of exist pages.
-        for (WeakReference<IMXPage> iPage : pages) {
-            if (iPage == null || iPage.get() == null) {
-                pages.remove(iPage);
-                continue;
-            }
-            allStackPage.add(String.format(formatStr, iPage.get().rootRoute(), iPage.get().hashCode()));
-        }
-
         String current = String.format(formatStr, page.rootRoute(), page.hashCode());
         Map<String, Object> query = new HashMap<>();
-        query.put("pages", allStackPage);
+        query.put("pages", getAllStackPageInfo());
         query.put("current", current);
         MixStackPlugin.invoke("setPages", query);
         currentPageQuery = query;
@@ -93,17 +84,28 @@ class MXStackInternal {
      *
      * @param pageSet
      */
-    void onDestroy(List<IMXPage> pageSet) {
-        for (IMXPage page : pageSet) {
+    void onDestroy(List<IMXPage> pageSet, IMXPage page) {
+        for (IMXPage childPage : pageSet) {
             for (WeakReference<IMXPage> tPage : pages) {
                 if (tPage == null) {
                     continue;
                 }
-                if (tPage.get() == null || tPage.get() == page) {
+                if (tPage.get() == null || tPage.get() == childPage) {
                     pages.remove(tPage);
                 }
             }
         }
+
+        String formatStr = "%s?addr=%s";
+        String current = "";
+        if (currentPage.get() != page) {
+            current = String.format(formatStr, currentPage.get().rootRoute(), currentPage.get().hashCode());
+        }
+        Map<String, Object> query = new HashMap<>();
+        query.put("pages", getAllStackPageInfo());
+        query.put("current", current);
+        MixStackPlugin.invoke("setPages", query);
+
     }
 
     /**
@@ -144,6 +146,20 @@ class MXStackInternal {
             MixStackPlugin.invokeWithListener("popPage", currentPageQuery, listener);
         }
     }
+
+    private List<String> getAllStackPageInfo() {
+        String formatStr = "%s?addr=%s";
+        List<String> allStackPage = new ArrayList<>(); //current status all of exist pages.
+        for (WeakReference<IMXPage> iPage : pages) {
+            if (iPage == null || iPage.get() == null) {
+                pages.remove(iPage);
+                continue;
+            }
+            allStackPage.add(String.format(formatStr, iPage.get().rootRoute(), iPage.get().hashCode()));
+        }
+        return allStackPage;
+    }
+
 
     public List<WeakReference<IMXPage>> getAllSavePages() {
         return pages;

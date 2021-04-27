@@ -24,7 +24,6 @@ import java.util.Map;
 
 import io.flutter.embedding.android.FlutterView;
 import io.flutter.embedding.android.SplashScreen;
-import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.renderer.FlutterRenderer;
 
 /*******************************************************
@@ -40,7 +39,6 @@ public class MXFlutterActivity extends AppCompatActivity implements ActivityFrag
     public static final String ROUTE = "route";
     private ActivityFragmentDelegate delegate;
     private String mRoute;
-    private FlutterEngine flutterEngine;
     private MXFlutterView flutterView;
     private boolean onPauseLock = false; //ensure onFlutterViewInitCompleted did before onPause.
     private MXPageManager pageManager = new MXPageManager();
@@ -50,7 +48,6 @@ public class MXFlutterActivity extends AppCompatActivity implements ActivityFrag
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         delegate = new ActivityFragmentDelegate(this);
-        flutterEngine = delegate.getFlutterEngine();
 
 
         Intent intent = getIntent();
@@ -95,12 +92,8 @@ public class MXFlutterActivity extends AppCompatActivity implements ActivityFrag
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        FlutterRenderer renderer = flutterEngine.getRenderer();
+        FlutterRenderer renderer = delegate.getFlutterEngine().getRenderer();
         renderer.removeIsDisplayingFlutterUiListener(delegate.flutterUiDisplayListener);
-        if (pageManager != null) {
-            pageManager.onDestroy();
-        }
-        delegate.fixInputMemoryLeak();
     }
 
     @Override
@@ -136,6 +129,7 @@ public class MXFlutterActivity extends AppCompatActivity implements ActivityFrag
             pageManager.onBackPressed(result -> {
                 boolean hasMorePage = (Boolean) ((HashMap) result).get("result");
                 if (!hasMorePage) {
+                    pageManager.onDestroy(MXFlutterActivity.this);
                     MXFlutterActivity.super.onBackPressed();
                 }
             });
@@ -170,6 +164,7 @@ public class MXFlutterActivity extends AppCompatActivity implements ActivityFrag
 
     @Override
     public void onPopNative() {
+        pageManager.onDestroy(MXFlutterActivity.this);
         finish();
         //Hook for subclasses.this is the default implement,
         //If you want to implement by yourself, please notice super has called finish();

@@ -6,11 +6,11 @@ import android.view.View;
 
 import com.yuewen.mix_stack.component.MXFlutterActivity;
 import com.yuewen.mix_stack.component.MXFlutterFragment;
-import com.yuewen.mix_stack.interfaces.PageIsRootListener;
 import com.yuewen.mix_stack.interfaces.IMXPage;
 import com.yuewen.mix_stack.interfaces.IMXPageManager;
 import com.yuewen.mix_stack.interfaces.InvokeMethodListener;
 import com.yuewen.mix_stack.interfaces.PageHistoryListener;
+import com.yuewen.mix_stack.interfaces.PageIsRootListener;
 import com.yuewen.mix_stack.model.AreaInsetsConfig;
 import com.yuewen.mix_stack.model.MXViewConfig;
 
@@ -45,10 +45,6 @@ public class MXPageManager extends PageOverlayConfig {
         this.pageList = new CopyOnWriteArrayList<>();
     }
 
-    public void onDestroy() {
-        MXStackInternal.getInstance().onDestroy(pageList);
-        pageList.clear();
-    }
 
     public void onResume() {
         MXStackInternal.getInstance().callCurrentPageAgain();
@@ -135,6 +131,11 @@ public class MXPageManager extends PageOverlayConfig {
 
     public void onBackPressed(InvokeMethodListener listener) {
         MXStackInternal.getInstance().pagePop(listener);
+    }
+
+    public void onDestroy(IMXPage page) {
+        MXStackInternal.getInstance().onDestroy(pageList, page);
+        pageList.clear();
     }
 
     /**
