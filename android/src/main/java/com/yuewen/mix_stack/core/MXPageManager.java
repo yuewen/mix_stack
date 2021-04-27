@@ -133,6 +133,11 @@ public class MXPageManager extends PageOverlayConfig {
         MXStackInternal.getInstance().pagePop(listener);
     }
 
+    /**
+     * Notify dart that container has destroyed and call widget dispose(),
+     *
+     * @param page
+     */
     public void onDestroy(IMXPage page) {
         MXStackInternal.getInstance().onDestroy(pageList, page);
         pageList.clear();
@@ -150,13 +155,12 @@ public class MXPageManager extends PageOverlayConfig {
      * We set a flag {@link MXFlutterFragment#isFlutterCanPop} by {@link MXPageManager#checkIsFlutterCanPop()} use
      * eg:
      * <p>
-     * public void onBackPressed() {
-     * if (pageManager.checkIsFlutterCanPop()) {
-     * pageManager.onBackPressed(this);
-     * } else {
-     * super.onBackPressed();
-     * }
-     * }
+     * //    public void onBackPressed() {
+     * //        if (pageManager.checkIsFlutterCanPop()) {
+     * //            pageManager.onBackPressed(this);
+     * //        } else {
+     * //          super.onBackPressed();
+     * //    }
      * <p>
      * When hasMorePage->false, will call fragment's host#onBackPressed(),and {@link MXPageManager#checkIsFlutterCanPop()}
      * get a false result, then call host normal onBackPressed().
@@ -217,13 +221,27 @@ public class MXPageManager extends PageOverlayConfig {
         });
     }
 
+    /**
+     * Check flutter container's flutter widget weather can pop,
+     * For example:
+     * MXFlutterActivity has flutter widget:[f1,f2,……] checkIsFlutterCanPop->return true,
+     * MXFlutterActivity has flutter widget:[f1] checkIsFlutterCanPop->return false,
+     *
+     * @return Combine with {@link #onBackPressed(Activity)})}
+     * true: will pop flutter page
+     * false: Call Activity default onBackPressed() will close the Flutter container.
+     */
     public boolean checkIsFlutterCanPop() {
         if (!isInFlutterPage()) {
             return false;
         }
         if (currentPage instanceof MXFlutterFragment) {
             MXFlutterFragment fragment = (MXFlutterFragment) currentPage;
-            return fragment.isFlutterCanPop;
+            boolean isFlutterCanPop = fragment.isFlutterCanPop;
+            if (!isFlutterCanPop) {
+                onDestroy((IMXPage) currentPage);
+            }
+            return isFlutterCanPop;
         }
         return false;
     }
