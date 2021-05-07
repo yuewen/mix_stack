@@ -285,7 +285,11 @@ MXContainerViewController *flutterVC = [[MXContainerViewController alloc] initWi
 Assume current page is Flutter Container，and you're not sure about whether you need to pop this VC or you need to pop one of the page contains in the container, you can try like below:
 
 ```objc
-BOOL result = [[MXStackExchange shared] popPage];
+[[MXStackExchange shared] popPage:^(BOOL popSuccess) {
+  if (!popSuccess) {
+    [self.navigationController popViewControllerAnimated:YES];
+  }
+}];
 ```
 
 If result is true, means inside Flutter Container's navigation stack there's a page being popped, and there's still pages there. If result is false, then it means that current Container contains navigation stack only have root page left, so you can pop the whole container safely.

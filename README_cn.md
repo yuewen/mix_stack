@@ -277,7 +277,11 @@ MXContainerViewController *flutterVC = [[MXContainerViewController alloc] initWi
 假如当前页面为 Flutter Container，而你不确定是要弹出整个 Flutter Container，还是手动触发弹出 Flutter 中的一个页面，可以使用
 
 ```objc
-BOOL result = [[MXStackExchange shared] popPage];
+[[MXStackExchange shared] popPage:^(BOOL popSuccess) {
+  if (!popSuccess) {
+    [self.navigationController popViewControllerAnimated:YES];
+  }
+}];
 ```
 
 如果 Result 为 true， 则 Flutter 导航栈中最顶上页面被成功弹出，如果为 false，说明此时该 Container 包含的 Flutter 导航栈中只剩 root 页面，可以安全弹出整个 Container。
@@ -469,7 +473,7 @@ IMXPage 是一个接口，虽然结构很简单，但它是连通 Flutter 与 Na
 
 ```java
 public interface IMXPage {
-    String rootRoute();
+    String rootRoute(); //对于page的ro画te
     void onPopNative();
 }
 ```

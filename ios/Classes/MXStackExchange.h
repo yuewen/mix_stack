@@ -35,7 +35,7 @@ NSString *MXPageAddress(id<MXViewControllerProtocol> vc);
 - (void)viewDidDisappear:(UIViewController<MXViewControllerProtocol> *)flutterView;
 - (void)updateContainer:(UIViewController<MXViewControllerProtocol> *)flutterView info:(MXContainerInfo *)info;
 - (UIViewController *)controllerForAddress:(NSString *)addr;
-- (BOOL)popPage;
+- (void)popPage:(void (^)(BOOL popSuccess))completion;
 - (void)viewController:(UIViewController<MXViewControllerProtocol> *)flutterView sendEvent:(NSString *)eventName query:(NSDictionary<NSString *, id> *)query;
 - (UIViewController<MXViewControllerProtocol> *)previousFlutterContainer:(nullable UIViewController<MXViewControllerProtocol> *)current;
 - (void)updatePages;

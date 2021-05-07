@@ -208,6 +208,7 @@ NSString *MXPageAddress(id<MXViewControllerProtocol> vc) {
       [arr addObject:MXPageAddress(vc)];
     }
   }
+
   NSDictionary *query = @{ @"pages" : arr,
                            @"current" : self.currentPage == nil ? @"" : self.currentPage };
   [MixStackPlugin
@@ -306,7 +307,7 @@ NSString *MXPageAddress(id<MXViewControllerProtocol> vc) {
   return container;
 }
 
-- (BOOL)popPage {
+- (void)popPage:(void (^)(BOOL popSuccess))completion {
   NSDictionary *query = @{ @"current" : self.currentPage };
   __block BOOL popFlutterSuccess = false;
   [MixStackPlugin invoke:@"popPage"
@@ -316,11 +317,11 @@ NSString *MXPageAddress(id<MXViewControllerProtocol> vc) {
                       NSDictionary *dict = result;
                       popFlutterSuccess =
                         [[dict objectForKey:@"result"] boolValue];
+                      if (completion != nil) {
+                        completion(popFlutterSuccess);
+                      }
                     }
                   }];
-  [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-                           beforeDate:[NSDate distantPast]];
-  return popFlutterSuccess;
 }
 
 - (NSString *)debugInfo {
