@@ -41,6 +41,7 @@ import io.flutter.embedding.engine.renderer.FlutterUiDisplayListener;
 public class MXFlutterFragment extends Fragment implements ActivityFragmentDelegate.Host {
     public static final String ROUTE = "route";
     //used for fragment that to judge if is in root page of flutter in this fragment.
+    //false -> in root page, true is not.
     public boolean isFlutterCanPop = true;
     private boolean isFirstTimeRenderFlutter = true;
     private boolean isDirty = false;
