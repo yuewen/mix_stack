@@ -19,3 +19,7 @@ Fix example pod file
 ## 1.0.6
 
 Fix navigator null issue
+
+## 1.4.0
+
+Fully support Null Safety
