@@ -10,13 +10,16 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		20DD9F6724DD27AC00B6264C /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DD9F6624DD27AC00B6264C /* test.swift */; };
 		20DDA60924E23B2300B6264C /* TabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20DDA60824E23B2300B6264C /* TabViewController.m */; };
+		2D8D92A54489A493A91A10EB /* libPods-Runner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 525472FB14FB42AA33C5B56F /* libPods-Runner.a */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
-		8EB8A0C38672386CA67AC6E8 /* libPods-Runner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E170979D4C64EFC889E46E4 /* libPods-Runner.a */; };
 		978B8F6F1D3862AE00F588F7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AFFD8EE1D35381100E5BB4D /* AppDelegate.m */; };
 		97C146F31CF9000F007C117D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C146F21CF9000F007C117D /* main.m */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		BC40A1AF26676DC700E57291 /* TestListController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC40A1AE26676DC700E57291 /* TestListController.m */; };
+		BC40A1B226676DDC00E57291 /* FlutterPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC40A1B126676DDC00E57291 /* FlutterPageViewController.m */; };
+		BC40A1B526676DF400E57291 /* NativeExmpleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC40A1B426676DF400E57291 /* NativeExmpleViewController.m */; };
 		F544776125BAA54200D41FE8 /* NativeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F544776025BAA54200D41FE8 /* NativeViewController.m */; };
 		F544776725BAE06900D41FE8 /* MoreFunctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F544776625BAE06900D41FE8 /* MoreFunctionViewController.m */; };
 /* End PBXBuildFile section */
@@ -43,7 +46,7 @@
 		20DDA60724E23B2300B6264C /* TabViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabViewController.h; sourceTree = "<group>"; };
 		20DDA60824E23B2300B6264C /* TabViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabViewController.m; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
-		6E170979D4C64EFC889E46E4 /* libPods-Runner.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Runner.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		525472FB14FB42AA33C5B56F /* libPods-Runner.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Runner.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
 		7AFFD8ED1D35381100E5BB4D /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7AFFD8EE1D35381100E5BB4D /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -57,6 +60,12 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B65E06D56071BA6679990E10 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
+		BC40A1AD26676DC700E57291 /* TestListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestListController.h; sourceTree = "<group>"; };
+		BC40A1AE26676DC700E57291 /* TestListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestListController.m; sourceTree = "<group>"; };
+		BC40A1B026676DDC00E57291 /* FlutterPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlutterPageViewController.h; sourceTree = "<group>"; };
+		BC40A1B126676DDC00E57291 /* FlutterPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlutterPageViewController.m; sourceTree = "<group>"; };
+		BC40A1B326676DF400E57291 /* NativeExmpleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeExmpleViewController.h; sourceTree = "<group>"; };
+		BC40A1B426676DF400E57291 /* NativeExmpleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NativeExmpleViewController.m; sourceTree = "<group>"; };
 		F544775F25BAA54200D41FE8 /* NativeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NativeViewController.h; sourceTree = "<group>"; };
 		F544776025BAA54200D41FE8 /* NativeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeViewController.m; sourceTree = "<group>"; };
 		F544776525BAE06900D41FE8 /* MoreFunctionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoreFunctionViewController.h; sourceTree = "<group>"; };
@@ -68,7 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8EB8A0C38672386CA67AC6E8 /* libPods-Runner.a in Frameworks */,
+				2D8D92A54489A493A91A10EB /* libPods-Runner.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,7 +87,7 @@
 		0CB1B08A1ED92DD9B515DF05 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6E170979D4C64EFC889E46E4 /* libPods-Runner.a */,
+				525472FB14FB42AA33C5B56F /* libPods-Runner.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -132,6 +141,12 @@
 				7AFFD8EE1D35381100E5BB4D /* AppDelegate.m */,
 				20DDA60724E23B2300B6264C /* TabViewController.h */,
 				20DDA60824E23B2300B6264C /* TabViewController.m */,
+				BC40A1AD26676DC700E57291 /* TestListController.h */,
+				BC40A1AE26676DC700E57291 /* TestListController.m */,
+				BC40A1B026676DDC00E57291 /* FlutterPageViewController.h */,
+				BC40A1B126676DDC00E57291 /* FlutterPageViewController.m */,
+				BC40A1B326676DF400E57291 /* NativeExmpleViewController.h */,
+				BC40A1B426676DF400E57291 /* NativeExmpleViewController.m */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -169,7 +184,6 @@
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
-				8A2866BAFDC086DA00E9DB87 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -242,23 +256,6 @@
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
 		};
-		8A2866BAFDC086DA00E9DB87 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		9740EEB61CF901F6004384FC /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -302,13 +299,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC40A1B526676DF400E57291 /* NativeExmpleViewController.m in Sources */,
 				20DDA60924E23B2300B6264C /* TabViewController.m in Sources */,
 				978B8F6F1D3862AE00F588F7 /* AppDelegate.m in Sources */,
 				20DD9F6724DD27AC00B6264C /* test.swift in Sources */,
 				97C146F31CF9000F007C117D /* main.m in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				BC40A1B226676DDC00E57291 /* FlutterPageViewController.m in Sources */,
 				F544776125BAA54200D41FE8 /* NativeViewController.m in Sources */,
 				F544776725BAE06900D41FE8 /* MoreFunctionViewController.m in Sources */,
+				BC40A1AF26676DC700E57291 /* TestListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

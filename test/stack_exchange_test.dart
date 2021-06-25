@@ -29,6 +29,7 @@ void main() {
             'addr': '555',
           }),
           {'exist': false});
+      expect(exchange.pageExists(null), {'exist': false});
     });
 
     test('Pop Page', () async {
@@ -50,7 +51,7 @@ void main() {
           'bottom': 3.0,
         }
       });
-      expect(exchange.pagesCommand.containerInfo.insets, EdgeInsets.fromLTRB(0, 1, 2, 3));
+      expect(exchange.pagesCommand.containerInfo!.insets, EdgeInsets.fromLTRB(0, 1, 2, 3));
     });
 
     test('pageEvent', () async {
@@ -61,15 +62,16 @@ void main() {
     test('Page Navigator Stack Length', () async {
       exchange.pagesCommand.addListener(() {
         if (exchange.pagesCommand.type == PagesCommandType.query) {
-          final info = PageInfo();
+          final info = PageInfo(['/hello']);
           exchange.pagesCommand.pageNavInfo = info;
         }
       });
-      expect(exchange.pageHistory({'current': 'test_page?addr=123'}), {'result': 2});
-      expect(exchange.pageHistory(null), {'result': 0});
+      expect(exchange.pageHistory({'current': 'test_page?addr=123'}), ['/hello']);
+      expect(exchange.pageHistory(null), []);
     });
   });
 
+  int count = 0;
   group('Call native', () {
     setUp(() {
       exchange.bridge.setMockMethodCallHandler((call) {
@@ -80,6 +82,10 @@ void main() {
           return Future.value(null);
         }
         if (call.method == 'currentOverlayTexture') {
+          if (count == 0) {
+            count += 1;
+            return Future.value(null);
+          }
           return Future.value(Uint8List(10));
         }
         if (call.method == 'enablePanNavigation') {
@@ -100,19 +106,22 @@ void main() {
     });
 
     test('getOverlayNames', () {
-      expect(exchange.getOverlayNames('1234'), ['1', '2', '3']);
+      expect(exchange.getOverlayNames('1234'), completion(equals(['1', '2', '3'])));
     });
     test('configOverlays', () {
       exchange.configOverlays('1234', {'1': '1'});
     });
     test('overlayTexture', () {
-      expect(exchange.overlayTexture('1234', ['1', '2']), Uint8List(10));
+      expect(exchange.overlayTexture('1234', ['1', '2']), completion(equals(Uint8List(0))));
+    });
+    test('overlayTexture', () {
+      expect(exchange.overlayTexture('1234', ['1', '2']), completion(equals(Uint8List(10))));
     });
     test('enableNativePan', () {
       exchange.enableNativePan('1234', false);
     });
     test('overlayInfos', () {
-      expect(exchange.overlayInfos('1234', ['1', '2']), {'1': '1'});
+      expect(exchange.overlayInfos('1234', ['1', '2']), completion(equals({'1': '1'})));
     });
     test('popNative', () {
       exchange.popNative('1234');

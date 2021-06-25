@@ -9,14 +9,14 @@ main() {
   const page = '/test?addr=123';
   group("Basic", () {
     test("Intialziation", () {
-      final observer = MXRouteObserver(pageAddress: page.address);
+      final observer = MXRouteObserver(pageAddress: page.address ?? '');
       expect(observer.stackLength, 0);
       expect(observer.pageAddress, page.address);
     });
 
     testWidgets('Put into navigator', (WidgetTester tester) async {
-      final observer = MXRouteObserver(pageAddress: page.address);
-      BuildContext ctx;
+      final observer = MXRouteObserver(pageAddress: page.address ?? '');
+      late BuildContext ctx;
       await tester.pumpWidget(CupertinoApp(
         home: Navigator(
             observers: [observer],
@@ -46,8 +46,8 @@ main() {
   });
 
   testWidgets('Persiste is false', (WidgetTester tester) async {
-    final observer = MXRouteObserver(pageAddress: page.address);
-    BuildContext ctx;
+    final observer = MXRouteObserver(pageAddress: page.address ?? '');
+    BuildContext? ctx;
     await tester.pumpWidget(CupertinoApp(
       home: Navigator(
           observers: [observer],
@@ -63,24 +63,23 @@ main() {
           }),
     ));
     int count = 0;
-    observer.registerAutoPushHiding(ctx, ['123'], (configs, {hideOverlay}) {
+    observer.registerAutoPushHiding(ctx!, ['123'], (configs, {required hideOverlay}) {
       count += 1;
-      return configs;
     }, persist: false);
-    Navigator.of(ctx).pushNamed('/1');
+    Navigator.of(ctx!).pushNamed('/1');
     await tester.pumpAndSettle(Duration(seconds: 1));
     expect(count, 1);
-    Navigator.of(ctx).pop();
+    Navigator.of(ctx!).pop();
     expect(count, 2);
     // Navigator.of(ctx).pushNamed('/2');
     // await tester.pumpAndSettle(Duration(seconds: 1));
     // Navigator.of(ctx).pop();
-    Navigator.of(ctx).pop();
+    Navigator.of(ctx!).pop();
   });
 
   testWidgets('Persiste is true', (WidgetTester tester) async {
-    final observer = MXRouteObserver(pageAddress: page.address);
-    BuildContext ctx;
+    final observer = MXRouteObserver(pageAddress: page.address ?? '');
+    BuildContext? ctx;
     await tester.pumpWidget(CupertinoApp(
       home: Navigator(
           observers: [observer],
@@ -96,18 +95,17 @@ main() {
           }),
     ));
     int count = 0;
-    observer.registerAutoPushHiding(ctx, ['123'], (configs, {hideOverlay}) {
+    observer.registerAutoPushHiding(ctx!, ['123'], (configs, {required hideOverlay}) {
       count += 1;
-      return configs;
     }, persist: true);
-    Navigator.of(ctx).pushNamed('/1');
+    Navigator.of(ctx!).pushNamed('/1');
     await tester.pumpAndSettle(Duration(seconds: 1));
     expect(count, 1);
-    Navigator.of(ctx).pop();
+    Navigator.of(ctx!).pop();
     expect(count, 2);
     // Navigator.of(ctx).pushNamed('/2');
     // await tester.pumpAndSettle(Duration(seconds: 1));
     // Navigator.of(ctx).pop();
-    Navigator.of(ctx).pop();
+    Navigator.of(ctx!).pop();
   });
 }

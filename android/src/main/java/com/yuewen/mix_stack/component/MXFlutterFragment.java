@@ -161,7 +161,6 @@ public class MXFlutterFragment extends Fragment implements ActivityFragmentDeleg
     public void onDestroyView() {
         super.onDestroyView();
         delegate.detachFromFlutterEngine();
-        delegate.fixInputMemoryLeak();
         if (preBitmap != null) {
             preBitmap.recycle();
             preBitmap = null;

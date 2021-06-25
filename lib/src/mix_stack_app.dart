@@ -6,24 +6,13 @@ import 'pages.dart';
 
 final StackExchange stackExchange = StackExchange();
 
-///Entry Widget for MixStack based application
 class MixStackApp extends StatefulWidget {
   final Route Function(BuildContext context, String path) routeBuilder;
-  final NavigatorObserversBuilder observersBuilder;
-  final CustomPopHandler customPopHandler;
-  final String debugRoot;
+  final NavigatorObserversBuilder? observersBuilder;
+  final CustomPopHandler? customPopHandler;
+  final String? debugRoot;
 
-  ///
-  /// Initializes [key] for subclasses.
-  ///
-  /// [routeBuilder] for MixStack to matching route and build root widget
-  ///
-  /// [observersBuilder] for building addional Navigator Observers
-  ///
-  /// [customPopHandler] for replace default Navigator.pop action
-  ///
-  /// [debugRoot] are using for directly run app without native support, so MixStack can have a root to start presenting
-  MixStackApp({Key key, @required this.routeBuilder, this.observersBuilder, this.customPopHandler, this.debugRoot})
+  MixStackApp({Key? key, required this.routeBuilder, this.observersBuilder, this.customPopHandler, this.debugRoot})
       : super(key: key);
   @override
   MixStackAppState createState() => MixStackAppState();

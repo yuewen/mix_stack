@@ -10,8 +10,8 @@ main() {
 
   group('MixStack', () {
     final observer = MXRouteObserver(pageAddress: '123');
-    bool panEnabled;
-    bool popNative;
+    bool? panEnabled;
+    bool? popNative;
     final infoDict = {'hidden': true, 'x': 1.0, 'y': 2.0, 'width': 3.0, 'height': 4.0};
     final info = NativeOverlayInfo(infoDict);
     setUp(() {
@@ -54,13 +54,15 @@ main() {
             onGenerateRoute: (settings) {
               return MaterialPageRoute(
                 builder: (context) {
-                  expect(
-                      MixStack.of(context).overlayTexture(context, ['123']), completion(equals(equals(Uint8List(10)))));
+                  expect(MixStack.of(context)!.overlayTexture(context, ['123']),
+                      completion(equals(equals(Uint8List(10)))));
                   expect(MixStack.getExchange(context), exchange);
                   MixStack.configOverlays(context, {
                     '1': {'1': 1}
                   });
-                  expect(MixStack.getOverlayNames(context), completion(equals(equals(['1', '2', '3']))));
+                  MixStack.getOverlayNames(context).then((value) {
+                    expect(value, ['1', '2', '3']);
+                  });
                   MixStack.enableNativePanGensture(context, true);
                   expect(panEnabled, true);
                   expect(MixStack.overlayInfos(context, ['1']), completion(equals(equals({'1': info}))));

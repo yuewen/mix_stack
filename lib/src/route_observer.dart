@@ -5,38 +5,36 @@ import 'mix_stack.dart';
 import 'native_overlay_replacer.dart';
 
 class MXPageInfo {
-  final String name;
-  Function(List<MXPageInfo> stack) _nextPopAction;
-  Function(List<MXPageInfo> stack, Function pushNewInfo) _nextPushAction;
+  final String? name;
+  Function(List<MXPageInfo> stack)? _nextPopAction;
+  Function(List<MXPageInfo> stack, Function pushNewInfo)? _nextPushAction;
 
-  Function(List<MXPageInfo> stack) _nextOncePopAction;
-  Function(List<MXPageInfo> stack, Function pushNewInfo) _nextOncePushAction;
+  Function(List<MXPageInfo> stack)? _nextOncePopAction;
+  Function(List<MXPageInfo> stack, Function pushNewInfo)? _nextOncePushAction;
   List<String> hideOverlays = [];
   MXPageInfo(this.name) : super();
 
   void pop(List<MXPageInfo> stack) {
     if (_nextOncePopAction != null) {
-      _nextOncePopAction(stack);
+      _nextOncePopAction!(stack);
       _nextOncePopAction = null;
       return;
     }
     if (_nextPopAction != null) {
-      _nextPopAction(stack);
+      _nextPopAction!(stack);
     }
   }
 
   void push(List<MXPageInfo> stack, Function pushNewInfo) {
     if (_nextOncePushAction != null) {
-      _nextOncePushAction(stack, pushNewInfo);
+      _nextOncePushAction!(stack, pushNewInfo);
       _nextOncePushAction = null;
       return;
     }
     if (_nextPushAction != null) {
-      _nextPushAction(stack, pushNewInfo);
+      _nextPushAction!(stack, pushNewInfo);
     } else {
-      if (pushNewInfo != null) {
-        pushNewInfo();
-      }
+      pushNewInfo();
     }
   }
 
@@ -47,25 +45,22 @@ class MXPageInfo {
 }
 
 class MXRouteObserver extends RouteObserver<PageRoute<dynamic>> {
-  static MXRouteObserver of(BuildContext context, {bool rootNavigator = false}) {
+  static MXRouteObserver? of(BuildContext context, {bool rootNavigator = false}) {
     NavigatorState navigator = Navigator.of(context, rootNavigator: rootNavigator);
-    if (navigator == null) {
-      return null;
-    }
     List<NavigatorObserver> observers =
         navigator.widget.observers.where((element) => element.runtimeType == MXRouteObserver).toList();
     if (observers.length == 0) {
       return null;
     } else {
-      return observers.first;
+      return observers.first as MXRouteObserver?;
     }
   }
 
-  final String pageAddress;
   MXRouteObserver({
-    @required this.pageAddress,
+    required this.pageAddress,
   }) : super();
   List<MXPageInfo> _stack = [];
+  final String pageAddress;
 
   @override
   String toString() {
@@ -73,7 +68,7 @@ class MXRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   }
 
   int get lastIndex => _stack.length;
-  List<String> get history => _stack.map((e) => e.name).toList();
+  List<String> get history => _stack.map((e) => e.name ?? '(NULL)').toList();
 
   bool get isRoot {
     return stackLength <= 1;
@@ -88,16 +83,14 @@ class MXRouteObserver extends RouteObserver<PageRoute<dynamic>> {
     if (navigator?.context == null) {
       return;
     }
-    if (MixStack.of(navigator.context) == null) {
+    if (MixStack.of(navigator!.context) == null) {
       return;
     }
-    if (MixStack.of(navigator.context).stackExchange != null) {
-      print('Update navigation pan sent');
-      MixStack.of(navigator.context).stackExchange.enableNativePan(pageAddress, isRoot);
-    }
+    print('Update navigation pan sent');
+    MixStack.of(navigator!.context)!.stackExchange.enableNativePan(pageAddress, isRoot);
   }
 
-  void markFullScreen(List<String> names, NativeOverlayConfigsAdjustFunction configNativeOverlay, bool once) {
+  void markFullScreen(List<String> names, NativeOverlayConfigsAdjustFunction? configNativeOverlay, bool once) {
     List<NativeOverlayConfig> configs = names.map((e) {
       return NativeOverlayConfig(name: e, alpha: 0, hidden: true);
     }).toList();
@@ -127,23 +120,23 @@ class MXRouteObserver extends RouteObserver<PageRoute<dynamic>> {
     }
   }
 
-  void registerAutoPushHiding(BuildContext context, List<String> names, NativeOverlayConfigsAdjustFunction configFunc,
-      {@required bool persist}) {
+  void registerAutoPushHiding(BuildContext context, List<String> names, NativeOverlayConfigsAdjustFunction? configFunc,
+      {required bool persist}) {
     if (_stack.length > 0) {
       Function action = (currentStack, pushNewInfo) {
         pushNewInfo();
         markFullScreen(names, configFunc, !persist);
       };
       if (persist) {
-        _stack.last._nextPushAction = action;
+        _stack.last._nextPushAction = action as dynamic Function(List<MXPageInfo>, Function)?;
       } else {
-        _stack.last._nextOncePushAction = action;
+        _stack.last._nextOncePushAction = action as dynamic Function(List<MXPageInfo>, Function)?;
       }
     }
   }
 
   @override
-  void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPush(route, previousRoute);
     MXPageInfo info = MXPageInfo(route.settings.name);
     if (_stack.length > 0) {
@@ -154,7 +147,6 @@ class MXRouteObserver extends RouteObserver<PageRoute<dynamic>> {
     } else {
       _stack.add(info);
     }
-    print('MX ${route.settings.name}');
     print('MX Push $runtimeType $hashCode Last info:$info Stack:$_stack');
     if (_stack.length > 1) {
       updateNativePanGestureState();
@@ -162,17 +154,15 @@ class MXRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   }
 
   @override
-  void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPop(route, previousRoute);
     MXPageInfo info = _stack.removeLast();
-    if (info != null) {
-      info.pop(_stack);
-    }
+    info.pop(_stack);
     print('Pop $runtimeType $hashCode \nLast info:$info \nStack:$_stack');
     updateNativePanGestureState();
     if (_stack.length == 0) {
-      if (MixStack.of(navigator.context) != null) {
-        MixStack.of(navigator.context).stackExchange.popNative(pageAddress);
+      if (MixStack.of(navigator!.context) != null) {
+        MixStack.of(navigator!.context)!.stackExchange.popNative(pageAddress);
       }
     }
   }

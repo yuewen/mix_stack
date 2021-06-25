@@ -17,7 +17,7 @@ class StackExchange {
   StackExchange() {
     bridge.setMethodCallHandler((call) {
       print('mix_stack call: $call');
-      Map query = call.arguments['query'];
+      Map? query = call.arguments['query'];
       if (call.method == 'pageExists') {
         return Future.value(pageExists(query));
       }
@@ -46,17 +46,23 @@ class StackExchange {
     });
   }
   //Input
-  Map pageExists(Map query) {
+  Map pageExists(Map? query) {
+    if (query == null) {
+      return {'exist': false};
+    }
     Map<String, dynamic> result = Map<String, dynamic>.from(query);
     return {'exist': pagesCommand.exist(result['addr'])};
   }
 
-  setPages(Map query) {
+  setPages(Map? query) {
+    if (query == null) {
+      return;
+    }
     final pages = List<String>.from(query['pages']);
     pagesCommand.update(pages, query['current']);
   }
 
-  popPage(Map query) {
+  popPage(Map? query) {
     if (query == null) {
       query = {};
     }
@@ -71,19 +77,19 @@ class StackExchange {
     pagesCommand.updateInfo(query['target'], info);
   }
 
-  pageHistory(Map query) {
+  pageHistory(Map? query) {
     if (query == null) {
       query = {};
     }
-    PageInfo info = pagesCommand.pageNavigatorInfo(query['current']);
+    PageInfo? info = pagesCommand.pageNavigatorInfo(query['current']);
     if (info != null) {
       return info.history;
     } else {
-      return [];
+      return <String>[];
     }
   }
 
-  pageEvent(Map query) {
+  pageEvent(Map? query) {
     if (query == null) {
       return {'result': 0};
     }
@@ -97,7 +103,10 @@ class StackExchange {
     return {'result': 0};
   }
 
-  void updateLifecycle(Map query) {
+  void updateLifecycle(Map? query) {
+    if (query == null) {
+      return;
+    }
     switch (query['lifecycle']) {
       case 'resumed':
         MixStack.lifecycleNotifier.value = AppLifecycleState.resumed;
@@ -118,8 +127,12 @@ class StackExchange {
 
   //Output
   Future<List<String>> getOverlayNames(String addr) async {
-    List<dynamic> result = await bridge.invokeMethod('overlayNames', {'addr': addr});
-    return List<String>.from(result);
+    dynamic result = await bridge.invokeMethod('overlayNames', {'addr': addr});
+    if (result is List) {
+      return List<String>.from(result);
+    } else {
+      return <String>[];
+    }
   }
 
   void configOverlays(String addr, Map<String, dynamic> configs) async {
@@ -127,7 +140,13 @@ class StackExchange {
   }
 
   Future<Uint8List> overlayTexture(String addr, List<String> names) async {
-    return bridge.invokeMethod('currentOverlayTexture', {'addr': addr, 'names': names});
+    return bridge.invokeMethod('currentOverlayTexture', {'addr': addr, 'names': names}).then((value) {
+      if (value is Uint8List) {
+        return value;
+      } else {
+        return Uint8List(0);
+      }
+    });
   }
 
   void enableNativePan(String addr, bool enable) async {
@@ -135,10 +154,16 @@ class StackExchange {
   }
 
   Future<Map> overlayInfos(String addr, List<String> names) async {
-    return bridge.invokeMethod<Map>('overlayInfos', {'addr': addr, 'names': names});
+    return bridge.invokeMethod<Map>('overlayInfos', {'addr': addr, 'names': names}).then((value) {
+      if (value is Map) {
+        return value;
+      } else {
+        return {};
+      }
+    });
   }
 
-  Future<bool> popNative(String addr, {needsAnimation: true}) async {
+  Future<bool?> popNative(String addr, {needsAnimation: true}) async {
     return bridge.invokeMethod('popNative', {'addr': addr, 'needsAnimation': needsAnimation});
   }
 

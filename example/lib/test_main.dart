@@ -22,7 +22,12 @@ class _TestMainState extends State<TestMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('MixStack Examples'), centerTitle: true),
+      appBar: AppBar(
+        title: Text('MixStack Examples'),
+        centerTitle: true,
+        backgroundColor: Colors.grey,
+        automaticallyImplyLeading: false,
+      ),
       body: ListView.separated(
         itemCount: actionMap.length,
         separatorBuilder: (BuildContext context, int index) => Divider(
@@ -56,6 +61,9 @@ class _TestMainState extends State<TestMain> {
       map['Using event to navigate VCs'] = () => goFlutterPage('/clear_stack');
     } else {
       map['Using event to handle TabBar index'] = () => goFlutterPage('/clear_stack');
+    }
+    if (Platform.isIOS) {
+      map['Module Test With ios'] = () => goFlutterPage('/test_list');
     }
     return map;
   }

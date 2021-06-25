@@ -84,7 +84,11 @@
 }
 
 - (void)goBack {
-  [self.navigationController popViewControllerAnimated:YES];
+  [[MXStackExchange shared] popPage:^(BOOL popSuccess) {
+    if (!popSuccess) {
+      [self.navigationController popViewControllerAnimated:YES];
+    }
+  }];
 }
 
 - (UIButton *)generateButton:(NSString *)title event:(SEL)action {

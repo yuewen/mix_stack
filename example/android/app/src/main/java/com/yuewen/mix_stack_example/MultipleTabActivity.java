@@ -136,7 +136,7 @@ public class MultipleTabActivity extends MXFlutterActivity implements View.OnCli
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        pageManager.onDestroy();
+        pageManager.onDestroy(this);
     }
 
     @Override

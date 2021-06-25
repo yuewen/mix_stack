@@ -6,22 +6,15 @@ import 'mix_stack.dart';
 import 'route_observer.dart';
 
 typedef NativeOverlayConfigsAdjustFunction = void Function(List<NativeOverlayConfig> configs,
-    {@required bool hideOverlay});
+    {required bool hideOverlay});
 const String MXOverlayNameTabBar = "tabBar";
 
-/// Native Overlay UI info model
 class NativeOverlayInfo {
-  /// UI's position and size
-  Rect rect;
-
-  /// Whether this UI is hide or show
-  bool hidden;
-
-  /// Intialize through Map
-  NativeOverlayInfo(Map infoDict) : super() {
-    hidden = infoDict['hidden'];
-    rect = Rect.fromLTWH(infoDict['x'], infoDict['y'], infoDict['width'], infoDict['height']);
-  }
+  final Rect rect;
+  final bool hidden;
+  NativeOverlayInfo(Map infoDict)
+      : hidden = infoDict['hidden'],
+        rect = Rect.fromLTWH(infoDict['x'], infoDict['y'], infoDict['width'], infoDict['height']);
 
   @override
   bool operator ==(other) {
@@ -32,46 +25,37 @@ class NativeOverlayInfo {
   int get hashCode => rect.hashCode ^ hidden.hashCode;
 }
 
-/// Behavior configuration for NativeOverlay
+///Behavior configuration for NativeOverlay
 ///
-/// name: the name defined in native client code, please sync with other developer to get this name
+///name: the name defined in native client code, please sync with other developer to get this name
 ///
-/// alpha: NativeOverlay's alpha parameters
+///alpha: NativeOverlay's alpha parameters
 ///
-/// hidden: NativeOverlay's hidden situation, true for hide, false for show
+///hidden: NativeOverlay's hidden situation, true for hide, false for show
 ///
-/// needsAnimation: whether this configuration needs an animated transition or not
+///needsAnimation: whether this configuration needs an animated transition or not
 class NativeOverlayConfig {
   bool hidden;
   double alpha;
   bool needsAnimation;
   String name;
-  NativeOverlayConfig({this.name, this.alpha = 1.0, this.hidden = false, this.needsAnimation = true});
+  NativeOverlayConfig({required this.name, this.alpha = 1.0, this.hidden = false, this.needsAnimation = true});
   Map<String, dynamic> get dict {
     return {'hidden': hidden ? 1 : 0, 'alpha': alpha, 'animation': needsAnimation ? 1 : 0};
   }
 }
 
-/// Widget for mimic Native Overlay inside Flutter for animation and more
 class NativeOverlayReplacer extends StatefulWidget {
   final Widget child;
   final List<String> autoHidesOverlayNames;
+  NativeOverlayReplacer({Key? key, required this.child, this.autoHidesOverlayNames = const []}) : super(key: key);
 
-  /// Initialization
-  ///
-  /// [child] child
-  ///
-  /// [autoHidesOverlayNames] Native Overlay UI names for manipulation
-  NativeOverlayReplacer({Key key, this.child, this.autoHidesOverlayNames = const []}) : super(key: key);
-
-  /// Fetch NativeOverlayReplacerState for child
-  static NativeOverlayReplacerState of(BuildContext context) {
-    final NativeOverlayReplacerState replacer = context.findAncestorStateOfType<NativeOverlayReplacerState>();
+  static NativeOverlayReplacerState? of(BuildContext context) {
+    final NativeOverlayReplacerState? replacer = context.findAncestorStateOfType<NativeOverlayReplacerState>();
     return replacer;
   }
 
-  /// Quick way for generate NativeOverlayReplacer specially for handling native [Tab] co-existence
-  static NativeOverlayReplacer autoHidesTabBar({Widget child}) {
+  static NativeOverlayReplacer autoHidesTabBar({required Widget child}) {
     return NativeOverlayReplacer(
       child: child,
       autoHidesOverlayNames: [MXOverlayNameTabBar],
@@ -87,7 +71,6 @@ class NativeOverlayReplacerState extends State<NativeOverlayReplacer> {
   Uint8List _cacheflowData = Uint8List(0);
   Uint8List get overflowData => _overflowData;
   bool triggerByOthers = true;
-
   set overflowData(Uint8List list) {
     setState(() {
       triggerByOthers = false;
@@ -121,27 +104,20 @@ class NativeOverlayReplacerState extends State<NativeOverlayReplacer> {
     });
   }
 
-  get registerLock => _registerLock;
+  bool get registerLock => _registerLock;
 
-  /// Register push and pop related native UI transition
-  ///
-  /// [names] native UI names that needs to be config
-  ///
-  /// [persist] whether this registeration is one time or forever for current context
-  ///
-  /// [adjustConfigs] how to manipulate those UI
   void registerAutoPushHiding(List<String> names,
-      {@required bool persist, NativeOverlayConfigsAdjustFunction adjustConfigs}) async {
-    MXRouteObserver observer = MXRouteObserver.of(context);
-    MixStack.of(context).overlayTexture(context, names).then((value) {
+      {required bool persist, NativeOverlayConfigsAdjustFunction? adjustConfigs}) async {
+    MXRouteObserver observer = MXRouteObserver.of(context)!;
+    MixStack.of(context)!.overlayTexture(context, names).then((value) {
       _cacheflowData = value;
     });
-    final configuration = (List<NativeOverlayConfig> configs, {bool hideOverlay}) async {
+    final configuration = (List<NativeOverlayConfig> configs, {required bool hideOverlay}) async {
       if (hideOverlay) {
         if (_cacheflowData.length > 0) {
           overflowData = _cacheflowData;
         } else {
-          overflowData = await MixStack.of(context).overlayTexture(context, names);
+          overflowData = await MixStack.of(context)!.overlayTexture(context, names);
         }
       } else {
         overflowData = Uint8List(0);
@@ -175,14 +151,12 @@ class NativeOverlayReplacerState extends State<NativeOverlayReplacer> {
     });
   }
 
-  Timer delayTimer;
+  Timer? delayTimer;
 
   @override
   Widget build(BuildContext context) {
     if (triggerByOthers) {
-      if (delayTimer != null) {
-        delayTimer.cancel();
-      }
+      delayTimer?.cancel();
       delayTimer = Timer(Duration(milliseconds: 300), () {
         final offstage = context.findAncestorWidgetOfExactType<Offstage>();
         if (offstage != null) {
@@ -191,7 +165,7 @@ class NativeOverlayReplacerState extends State<NativeOverlayReplacer> {
               final names = value
                   .where((String element) => widget.autoHidesOverlayNames.contains(element.split('-').last))
                   .toList();
-              _cacheflowData = await MixStack.of(context).overlayTexture(context, names);
+              _cacheflowData = await MixStack.of(context)!.overlayTexture(context, names);
             });
           }
         }
@@ -210,10 +184,8 @@ class NativeOverlayReplacerState extends State<NativeOverlayReplacer> {
 
   @override
   void dispose() {
-    _overflowData = null;
-    if (delayTimer != null) {
-      delayTimer.cancel();
-    }
+    _overflowData = Uint8List(0);
+    delayTimer?.cancel();
     super.dispose();
   }
 }

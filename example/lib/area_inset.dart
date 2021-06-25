@@ -29,7 +29,11 @@ class _TestAreaInsetState extends State<TestAreaInset> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Area Inset'), centerTitle: true),
+      // appBar: AppBar(
+      //   title: Text('Area Inset'),
+      //   centerTitle: true,
+      //   backgroundColor: Colors.grey,
+      // ),
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
@@ -38,8 +42,7 @@ class _TestAreaInsetState extends State<TestAreaInset> {
             right: 20,
             child: Column(
               children: [
-                Text('Flutter button',
-                    style: TextStyle(color: Colors.grey, fontSize: 13)),
+                Text('Flutter button', style: TextStyle(color: Colors.grey, fontSize: 13)),
                 SizedBox(height: 5),
                 FloatingActionButton(
                   onPressed: () {},

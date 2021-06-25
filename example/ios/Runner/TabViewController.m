@@ -8,15 +8,13 @@
 #import "TabViewController.h"
 #import <mix_stack/mix_stack.h>
 
-
-@interface TabViewController () 
+@interface TabViewController ()
 
 @end
 
 @implementation TabViewController
 
 - (void)viewDidLoad {
-  [super viewDidLoad];
+    [super viewDidLoad];
 }
-
 @end

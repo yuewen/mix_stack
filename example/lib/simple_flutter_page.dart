@@ -26,7 +26,17 @@ class _SimpleFlutterPageState extends State<SimpleFlutterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('MixStack'), centerTitle: true),
+      appBar: AppBar(
+        title: Text('MixStack'),
+        centerTitle: true,
+        backgroundColor: Colors.grey,
+        automaticallyImplyLeading: false,
+        leading: Builder(
+          builder: (context) {
+            return IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: () => router.pop(context));
+          },
+        ),
+      ),
       body: ButtonTheme(
         minWidth: 200.0,
         buttonColor: Colors.grey[300],

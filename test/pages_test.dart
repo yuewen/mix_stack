@@ -27,7 +27,7 @@ void main() {
       notifyCount = 0;
       command.updateInfo('test?addr=1', info);
       expect(command.type, PagesCommandType.updateInfo);
-      expect(command.containerInfo.insets, info.insets);
+      expect(command.containerInfo!.insets, info.insets);
       expect(notifyCount, 1);
     });
 
@@ -56,16 +56,17 @@ void main() {
     });
     test('Page Navigator Stack Length', () async {
       notifyCount = 0;
-      final target = 'test?addr=1';
       void updateInfo() {
-        final a = PageInfo();
+        final a = PageInfo([]);
         command.pageNavInfo = a;
       }
 
       command.addListener(updateInfo);
+      final target = 'test?addr=1';
       final info = command.pageNavigatorInfo(target);
       expect(command.type, PagesCommandType.query);
       expect(notifyCount, 1);
+      expect(info!.history.length, 0);
       command.removeListener(updateInfo);
     });
   });
@@ -76,9 +77,9 @@ void main() {
     final eventCallback = (query) {
       expect(eventQuery, query);
     };
-    Function removeCallback;
-    NavigatorState navigator;
-    PageContainer container;
+    late Function removeCallback;
+    NavigatorState? navigator;
+    late PageContainer container;
     testWidgets('Widget', (WidgetTester tester) async {
       final pages = Pages(
           command: command,
@@ -104,13 +105,13 @@ void main() {
       expect(find.descendant(of: find.byType(Pages), matching: find.byType(Stack)), findsOneWidget);
       command.popPage('/1?addr=1');
       expect(command.popResult, false);
-      navigator.pushNamed('/2');
+      navigator!.pushNamed('/2');
       print(navigator);
       await tester.pump(Duration(seconds: 1));
       command.popPage('/1?addr=1');
       expect(command.popResult, true);
-      final info = command.pageNavigatorInfo('/1?addr=1');
-      expect(info.history, ['/1?addr=1']);
+      final info = command.pageNavigatorInfo('/1?addr=1')!;
+      expect(info.history, ['/1']);
       final containerInfo = PageContainerInfo({'left': 1.0, 'top': 2.0, 'right': 3.0, 'bottom': 4.0});
       command.updateInfo('/1?addr=1', containerInfo);
       command.pageEvent('test?addr=1', 'hello', eventQuery);

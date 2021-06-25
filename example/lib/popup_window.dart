@@ -8,9 +8,9 @@ class TestPopupWindow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NativeOverlayReplacer.autoHidesTabBar(
+    return NativeOverlayReplacer(
+      autoHidesOverlayNames: ["tabBar", "navigationBar"],
       child: Scaffold(
-        appBar: AppBar(title: Text('Popup Window'), centerTitle: true),
         body: Container(
           alignment: Alignment.center,
           child: Column(
@@ -32,8 +32,7 @@ class TestPopupWindow extends StatelessWidget {
     );
   }
 
-  Widget _buildHero(
-      BuildContext context, String imageName, String description) {
+  Widget _buildHero(BuildContext context, String imageName, String description) {
     return Container(
       width: kMinRadius * 2.0,
       height: kMinRadius * 2.0,
@@ -70,8 +69,7 @@ class TestPopupWindow extends StatelessWidget {
     );
   }
 
-  Widget _buildPage(
-      BuildContext context, String imageName, String description) {
+  Widget _buildPage(BuildContext context, String imageName, String description) {
     return GestureDetector(
       onTap: () async {
         Navigator.of(context).pop();
@@ -173,18 +171,14 @@ class PhotoGalleryFadeRouter extends PageRouteBuilder {
   PhotoGalleryFadeRouter(this.widget)
       : super(
           transitionDuration: Duration(milliseconds: 300),
-          pageBuilder: (BuildContext context, Animation<double> animation1,
-              Animation<double> animation2) {
+          pageBuilder: (BuildContext context, Animation<double> animation1, Animation<double> animation2) {
             return widget;
           },
-          transitionsBuilder: (BuildContext context,
-              Animation<double> animation1,
-              Animation<double> animation2,
-              Widget child) {
+          transitionsBuilder:
+              (BuildContext context, Animation<double> animation1, Animation<double> animation2, Widget child) {
             return FadeTransition(
               opacity: Tween(begin: 0.0, end: 1.0).animate(
-                CurvedAnimation(
-                    parent: animation1, curve: Curves.fastOutSlowIn),
+                CurvedAnimation(parent: animation1, curve: Curves.fastOutSlowIn),
               ),
               child: child,
             );

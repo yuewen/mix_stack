@@ -4,12 +4,14 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mix_stack/mix_stack.dart';
+import 'package:mix_stack_example/present_flutter_page.dart';
 
 import 'common_utils.dart';
 import 'simple_flutter_page.dart';
-import 'test_area_inset.dart';
+import 'area_inset.dart';
 import 'test_main.dart';
-import 'test_popup_window.dart';
+import 'popup_window.dart';
+import 'page_controller.dart';
 
 void main() {
   runApp(MyApp());
@@ -69,7 +71,18 @@ class MyApp extends StatelessWidget {
         handlerFunc: (ctx, params) => SimpleFlutterPage('/clear_stack'),
       ),
     );
-
+    defineRoute(
+      '/test_list',
+      Handler(
+        handlerFunc: (ctx, params) => TestPageController(),
+      ),
+    );
+    defineRoute(
+      '/present_flutter',
+      Handler(
+        handlerFunc: (ctx, params) => PrensentFlutter('/present_flutter'),
+      ),
+    );
     MixStack.lifecycleNotifier.addListener(() {
       print('MixStack lifecycle:${MixStack.lifecycleNotifier.value}');
     });

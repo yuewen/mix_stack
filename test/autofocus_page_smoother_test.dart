@@ -20,7 +20,7 @@ main() {
     print(child);
     await tester.pumpWidget(MaterialApp(key: testKey, home: Scaffold(body: AutofocusPageSmoother(child: child))));
     await tester.pumpAndSettle(Duration(seconds: 1));
-    expect(child.focusNode.hasFocus, true);
+    expect(child.focusNode!.hasFocus, true);
   });
 
   testWidgets('Focus test Autofocus False', (WidgetTester tester) async {
@@ -33,6 +33,6 @@ main() {
     print(child);
     await tester.pumpWidget(MaterialApp(key: testKey, home: Scaffold(body: AutofocusPageSmoother(child: child))));
     await tester.pumpAndSettle(Duration(seconds: 1));
-    expect(child.focusNode.hasFocus, false);
+    expect(child.focusNode!.hasFocus, false);
   });
 }

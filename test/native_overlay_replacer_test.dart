@@ -34,7 +34,7 @@ main() {
   });
 
   tearDown(() {
-    data = null;
+    data = Uint8List(0);
   });
   test('NativeOverlayInfo', () {
     final rect = Rect.fromLTWH(1.0, 2.0, 3.0, 4.0);
@@ -57,9 +57,9 @@ main() {
   });
 
   testWidgets('NativeOverlayReplacer', (WidgetTester tester) async {
-    NativeOverlayReplacer overlay;
+    NativeOverlayReplacer? overlay;
     MXRouteObserver observer = MXRouteObserver(pageAddress: '123');
-    BuildContext testCTX;
+    late BuildContext testCTX;
     final navigator = Navigator(
       observers: [observer],
       onGenerateRoute: (settings) {
@@ -68,11 +68,11 @@ main() {
               overlay = NativeOverlayReplacer(
                 child: Builder(builder: (BuildContext ctx) {
                   testCTX = ctx;
-                  expect(NativeOverlayReplacer.of(ctx).widget, overlay);
+                  expect(NativeOverlayReplacer.of(ctx)!.widget, overlay);
                   return Container();
                 }),
               );
-              return overlay;
+              return overlay!;
             },
             settings: settings);
       },
@@ -80,22 +80,22 @@ main() {
     final app = MixStack(stackExchange: exchange, child: MaterialApp(home: Scaffold(body: navigator)));
     await tester.pumpWidget(app);
     expect(find.byType(Image), findsNothing);
-    NativeOverlayReplacer.of(testCTX).overflowData = data;
+    NativeOverlayReplacer.of(testCTX)!.overflowData = data;
     await tester.pump(Duration(seconds: 1));
     expect(find.byType(NativeOverlayReplacer), findsOneWidget);
     expect(find.descendant(of: find.byType(NativeOverlayReplacer), matching: find.byType(Image)), findsOneWidget);
-    NativeOverlayReplacer.of(testCTX).overflowData = Uint8List(0);
-    NativeOverlayReplacer.of(testCTX).registerAutoPushHiding(
+    NativeOverlayReplacer.of(testCTX)!.overflowData = Uint8List(0);
+    NativeOverlayReplacer.of(testCTX)!.registerAutoPushHiding(
       ['123'],
       persist: true,
-      adjustConfigs: (configs, {hideOverlay}) {},
+      adjustConfigs: (configs, {required hideOverlay}) {},
     );
     BuildContext oldCTX = testCTX;
     Navigator.of(testCTX).pushNamed('/hello');
     await tester.pump(Duration(seconds: 1));
-    expect(NativeOverlayReplacer.of(oldCTX).overflowData, data);
+    expect(NativeOverlayReplacer.of(oldCTX)!.overflowData, data);
     Navigator.of(testCTX).pop();
     await tester.pump(Duration(seconds: 1));
-    expect(NativeOverlayReplacer.of(oldCTX).overflowData.length, 0);
+    expect(NativeOverlayReplacer.of(oldCTX)!.overflowData.length, 0);
   });
 }

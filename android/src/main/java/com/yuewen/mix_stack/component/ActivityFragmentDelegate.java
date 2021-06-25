@@ -17,7 +17,6 @@ import com.yuewen.mix_stack.interfaces.IMXPage;
 import com.yuewen.mix_stack.utils.ReflectionUtil;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,6 @@ import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.renderer.FlutterRenderer;
 import io.flutter.embedding.engine.renderer.FlutterUiDisplayListener;
 import io.flutter.embedding.engine.systemchannels.PlatformChannel;
-import io.flutter.embedding.engine.systemchannels.TextInputChannel;
 import io.flutter.plugin.platform.PlatformPlugin;
 
 /*******************************************************
@@ -162,42 +160,6 @@ class ActivityFragmentDelegate {
         }
 
     }
-
-
-    /**
-     * This problem also in {@link io.flutter.embedding.android.FlutterActivity}
-     * below flutter 1.17.5
-     * <p>
-     * see https://github.com/flutter/flutter/issues/54275
-     */
-    public void fixInputMemoryLeak() {
-        try {
-            Field textPluginField = ReflectionUtil.getField(flutterView.getClass().getSuperclass(), "textInputPlugin");
-            if (textPluginField == null) {
-                return;
-            }
-            Object textPluginObj = ReflectionUtil.getValue(textPluginField, flutterView);
-            if (textPluginObj == null) {
-                return;
-            }
-            Field textInputChannelField = ReflectionUtil.getField(textPluginObj.getClass(), "textInputChannel");
-            if (textInputChannelField == null) {
-                return;
-            }
-            Object textInputChannelObj = ReflectionUtil.getValue(textInputChannelField, textPluginObj);
-            if (textInputChannelObj == null) {
-                return;
-            }
-            Method method = ReflectionUtil.getMethod(textInputChannelObj.getClass(), "setTextInputMethodHandler");
-            if (method == null) {
-                return;
-            }
-            method.invoke(textInputChannelObj, (TextInputChannel.TextInputMethodHandler) null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 
     /**
      * send the event to flutter that you can custom ur stack business which like:

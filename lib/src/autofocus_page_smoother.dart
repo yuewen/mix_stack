@@ -2,17 +2,16 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-///Widget for smooth out page transition with Keyboard openning
 class AutofocusPageSmoother extends StatefulWidget {
   final Widget child;
   final focusNode = FocusNode();
-  AutofocusPageSmoother({Key key, this.child}) : super(key: key);
+  AutofocusPageSmoother({Key? key, required this.child}) : super(key: key);
   @override
   _AutofocusPageSmootherState createState() => _AutofocusPageSmootherState();
 }
 
 class _AutofocusPageSmootherState extends State<AutofocusPageSmoother> {
-  Timer _timer;
+  Timer? _timer;
   bool _didCancelAutoFocus = false;
   @override
   void didChangeDependencies() {
@@ -24,8 +23,8 @@ class _AutofocusPageSmootherState extends State<AutofocusPageSmoother> {
       _timer = Timer(Duration(milliseconds: 800), () {
         for (var node in FocusScope.of(context).children) {
           if (node.context != null) {
-            if (node.context.widget is EditableText) {
-              EditableText a = node.context.widget as EditableText;
+            if (node.context!.widget is EditableText) {
+              EditableText a = node.context!.widget as EditableText;
               if (a.autofocus) {
                 node.requestFocus();
                 break;
@@ -35,16 +34,18 @@ class _AutofocusPageSmootherState extends State<AutofocusPageSmoother> {
         }
       });
     } else {
-      if (!_timer.isActive) {
-        _timer.cancel();
+      if (_timer != null) {
+        if (_timer!.isActive) {
+          _timer?.cancel();
+        }
       }
     }
   }
 
   @override
   void dispose() {
+    _timer?.cancel();
     super.dispose();
-    _timer.cancel();
   }
 
   @override

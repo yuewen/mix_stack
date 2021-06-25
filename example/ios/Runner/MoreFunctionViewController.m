@@ -31,11 +31,10 @@
     CGFloat screenHeight = self.view.frame.size.height;
     UIView *mainBoard = [[UIView alloc] initWithFrame:CGRectMake(16, screenHeight - 300, screenWidth, 300)];
     
-    UILabel *tips = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 32)];
+    UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 32)];
     tips.text = @"Show/Hide native TabBar";
     tips.font =  [UIFont systemFontOfSize:16];
     tips.textColor = [UIColor grayColor];
-    
     
     UIButton *btnShowTabBar = [self generateButton:@"Show" event:@selector(toggleBar:)];
     UIButton *btnHideTabBar = [self generateButton:@"Hide" event:@selector(toggleBar:)];
@@ -53,7 +52,6 @@
     } else {
         self.tabBar.hidden = YES;
     }
-    
     [self.selectedViewController.view setNeedsLayout];
     [self.selectedViewController.view layoutIfNeeded];
 }
@@ -65,7 +63,7 @@
     [uiButton setTitle:title forState:UIControlStateNormal];
     [uiButton setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
     [uiButton addTarget:self action:action forControlEvents:UIControlEventTouchDown];
-    uiButton.backgroundColor= [UIColor colorWithRed:rgbColor green:rgbColor  blue:rgbColor  alpha:1];
+    uiButton.backgroundColor = [UIColor colorWithRed:rgbColor green:rgbColor  blue:rgbColor  alpha:1];
     uiButton.titleLabel.font = [UIFont systemFontOfSize:16];
     uiButton.layer.cornerRadius = 2;
     uiButton.layer.shadowPath = [UIBezierPath bezierPathWithRect:uiButton.bounds].CGPath;
