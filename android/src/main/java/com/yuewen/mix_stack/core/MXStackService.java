@@ -58,8 +58,12 @@ public class MXStackService {
         return application;
     }
 
-    public static void init(Application application) {
-        MXStackService.getInstance().initFlutterEngine(application);
+    public static void initWithFlutterEngine(Application application, FlutterEngine flutterEngine) {
+        MXStackService.getInstance().application = application;
+        if (flutterEngine == null) {
+            flutterEngine = MXStackService.getInstance().createDefaultFlutterEngine(application);
+        }
+        MXStackService.getInstance().setFlutterEngine(flutterEngine);
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -106,6 +110,10 @@ public class MXStackService {
         });
     }
 
+    public static void init(Application application) {
+        initWithFlutterEngine(application, null);
+    }
+
     public IMXPage getCurrentPage() {
         return currentPage == null ? null : currentPage.get();
     }
@@ -122,13 +130,16 @@ public class MXStackService {
         return pageActivityMap.get(hashCode);
     }
 
-    private void initFlutterEngine(Application application) {
-        MXStackService.getInstance().application = application;
+    private void setFlutterEngine(FlutterEngine flutterEngine) {
+        this.flutterEngine = flutterEngine;
+    }
+
+    private FlutterEngine createDefaultFlutterEngine(Application application) {
         FlutterEngine flutterEngine = new FlutterEngine(application);
         flutterEngine.getDartExecutor().executeDartEntrypoint(
                 DartExecutor.DartEntrypoint.createDefault()
         );
-        this.flutterEngine = flutterEngine;
+        return flutterEngine;
     }
 
     public FlutterEngine getFlutterEngine() {
