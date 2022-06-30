@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.flutter.embedding.android.DrawableSplashScreen;
+import io.flutter.embedding.android.ExclusiveAppComponent;
 import io.flutter.embedding.android.FlutterTextureView;
 import io.flutter.embedding.android.FlutterView;
 import io.flutter.embedding.android.SplashScreenProvider;
@@ -47,7 +48,7 @@ import io.flutter.plugin.platform.PlatformPlugin;
  *
  *******************************************************/
 
-class ActivityFragmentDelegate {
+class ActivityFragmentDelegate implements ExclusiveAppComponent<Activity> {
     private static final int DEFAULT_SPLASH_DURATION = 500;
 
     private Host host;
@@ -102,7 +103,7 @@ class ActivityFragmentDelegate {
     public void onAttach() {
         PlatformChannel platformChannel = flutterEngine.getPlatformChannel();
         platformPlugin = new PlatformPlugin(host.getActivity(), platformChannel);
-        flutterEngine.getActivityControlSurface().attachToActivity(host.getActivity(), host.getLifecycle());
+        flutterEngine.getActivityControlSurface().attachToActivity(this, host.getLifecycle());
     }
 
     void onPostResume() {
@@ -139,7 +140,8 @@ class ActivityFragmentDelegate {
         }
     }
 
-    void detachFromFlutterEngine() {
+    @Override
+    public void detachFromFlutterEngine() {
         FlutterRenderer renderer = flutterTextureView.getAttachedRenderer();
         if (renderer != null && flutterUiDisplayListener != null) {
             renderer.removeIsDisplayingFlutterUiListener(flutterUiDisplayListener);
@@ -159,6 +161,11 @@ class ActivityFragmentDelegate {
             Log.d("Mix-Stack", "flutterView detachFromFlutterEngine from " + hostStr + " fail,error:" + e.getMessage());
         }
 
+    }
+
+    @Override
+    public Activity getAppComponent() {
+        return host.getActivity();
     }
 
     /**
